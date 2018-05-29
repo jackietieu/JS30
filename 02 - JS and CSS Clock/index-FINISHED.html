@@ -90,8 +90,8 @@
     hourHand.style.transform = `rotate(${hourDegrees}deg)`;
   }
 
-  window.onload(() => {
-    wisetInterval(setDate, 1000);
+  window.onload = (() => {
+    setInterval(setDate, 1000);
     setDate();
   })
 
