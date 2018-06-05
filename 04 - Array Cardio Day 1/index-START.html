@@ -63,26 +63,31 @@
       })
     });
 
-    function checkChildrenForTag(el, tag) {
-      let foundTag = false;
+    function searchChildrenForTag(el, tag) {
+      if (el.children.length === 0) {
+        return [];
+      } else if (el.children.length === 1 && tag === el.children[0].tagName) {
+        return [el.children[0]];
+      }
+
+      let result = [];
 
       if (el.children.length) {
         Array.from(el.children).forEach(child => {
           if (child.children.length) {
-            foundTag = checkChildrenForTag(child, tag);
+            result = result.concat(searchChildrenForTag(child, tag));
           }
-          
+
           if (tag === child.tagName) {
-            foundTag = child;
-            console.log(child);
+            result = result.concat(child);
           }
         })
       }
 
-      return foundTag;
+      return result;
     }
 
-    const links = boulevardGroups.map(el => checkChildrenForTag(el, 'A'))
+    const links = boulevardGroups.map(el => searchChildrenForTag(el, 'A'))
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
