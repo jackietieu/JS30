@@ -57,11 +57,32 @@
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
     const sections = document.querySelectorAll(".mw-category-group");
 
-    const boulevards = Array.from(sections).filter(section => {
+    const boulevardGroups = Array.from(sections).filter(section => {
       return Array.from(section.children).find(el => {
         return (el.nodeName === "H3") && (el.innerText.match(/[a-zA-Z]/i));
       })
     });
+
+    function checkChildrenForTag(el, tag) {
+      let foundTag = false;
+
+      if (el.children.length) {
+        Array.from(el.children).forEach(child => {
+          if (child.children.length) {
+            foundTag = checkChildrenForTag(child, tag);
+          }
+          
+          if (tag === child.tagName) {
+            foundTag = child;
+            console.log(child);
+          }
+        })
+      }
+
+      return foundTag;
+    }
+
+    const links = boulevardGroups.map(el => checkChildrenForTag(el, 'A'))
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
