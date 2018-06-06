@@ -87,10 +87,17 @@
       return result;
     }
 
-    const links = boulevardGroups.map(el => searchChildrenForTag(el, 'A'))
+    const links = boulevardGroups.map(el => searchChildrenForTag(el, 'A'));
+    const deBoulevards = links
+      .reduce((result, array) => result.concat(array), [])
+      .map(link => link.textContent)
+      .filter(street => street.includes('de'));
+
+    console.log(deBoulevards);
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
