@@ -50,7 +50,6 @@
       border-left: 1px solid #D1E2FF;
     }
 
-
   </style>
    <!--
    The following is a common layout you would see in an email client.
@@ -98,17 +97,58 @@
   </div>
 
 <script>
-  const items = document.querySelectorAll('.item'),
-        inputs = items.querySelectorAll('input');
+  let items = document.querySelectorAll('.item');
+      items = Array.from(items).map((item, i) => {
+        item.dataset.index = i;
+        return item;
+      })
+      
   let firstSelection = false,
-      secondSelection = false;
+      secondSelection = false,
+      shiftPressed = false,
+      firstVal,
+      secondVal;
   
   function handleClick(e) {
-
+    if (e.target.tagName !== 'INPUT') { return; }
+    if (firstSelection === false) {
+      firstSelection = true;
+      firstVal = e.target.parentElement.dataset.index;
+    } else if (firstSelection && secondSelection === false) {
+      secondSelection = true;
+      secondVal = e.target.parentElement.dataset.index;
+      massSelect(firstVal, secondVal);
+    }
   }
 
-  inputs.forEach(input => input.addEventListener('click', handleClick))
+  function massSelect(first, last) {
+    if (first > last) {
+      [first, last] = [last, first]
+    }
 
+    for (let i = first; i < last; i++) {
+      const input = items[i].querySelector('input');
+      input.checked = true;
+    }
+
+    firstSelection = false;
+    secondSelection = false;
+    firstVal = undefined;
+    secondVal = undefined;
+  }
+
+  function handleKeypress(e) {
+    if (e.code !== 16) { return; }
+    if (shiftPressed) {
+      shiftPressed = false;
+    } else {
+      shiftPressed = true;
+    }
+  }
+
+  items.forEach(item => item.addEventListener('click', handleClick))
+  items.forEach(item => item.addEventListener('keydown', handleKeypress))
+  items.forEach(item => item.addEventListener('keyup', handleKeypress))
 </script>
 </body>
 </html>
