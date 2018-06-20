@@ -30,7 +30,6 @@
       border-bottom:0;
     }
 
-
     input:checked + p {
       background:#F9F9F9;
       text-decoration: line-through;
@@ -99,6 +98,17 @@
   </div>
 
 <script>
+  const items = document.querySelectorAll('.item'),
+        inputs = items.querySelectorAll('input');
+  let firstSelection = false,
+      secondSelection = false;
+  
+  function handleClick(e) {
+
+  }
+
+  inputs.forEach(input => input.addEventListener('click', handleClick))
+
 </script>
 </body>
 </html>
