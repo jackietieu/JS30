@@ -102,7 +102,7 @@
         item.dataset.index = i;
         return item;
       })
-      
+
   let firstSelection = false,
       secondSelection = false,
       shiftPressed = false,
@@ -122,6 +122,7 @@
   }
 
   function massSelect(first, last) {
+    if (!shiftPressed) { return; }
     if (first > last) {
       [first, last] = [last, first]
     }
@@ -138,7 +139,7 @@
   }
 
   function handleKeypress(e) {
-    if (e.code !== 16) { return; }
+    if (e.keyCode !== 16) { return; }
     if (shiftPressed) {
       shiftPressed = false;
     } else {
@@ -147,8 +148,9 @@
   }
 
   items.forEach(item => item.addEventListener('click', handleClick))
-  items.forEach(item => item.addEventListener('keydown', handleKeypress))
-  items.forEach(item => item.addEventListener('keyup', handleKeypress))
+  document.addEventListener('keydown', handleKeypress)
+  document.addEventListener('keyup', handleKeypress)
+  document.addEventListener('keypress', handleKeypress)
 </script>
 </body>
 </html>
