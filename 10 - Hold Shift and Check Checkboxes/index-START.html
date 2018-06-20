@@ -97,60 +97,85 @@
   </div>
 
 <script>
-  let items = document.querySelectorAll('.item');
-      items = Array.from(items).map((item, i) => {
-        item.dataset.index = i;
-        return item;
-      })
+  // let items = document.querySelectorAll('.item');
+  //     items = Array.from(items).map((item, i) => {
+  //       item.dataset.index = i;
+  //       return item;
+  //     })
 
-  let firstSelection = false,
-      secondSelection = false,
-      shiftPressed = false,
-      firstVal,
-      secondVal;
+  // let firstSelection = false,
+  //     secondSelection = false,
+  //     shiftPressed = false,
+  //     firstVal,
+  //     secondVal;
   
-  function handleClick(e) {
-    if (e.target.tagName !== 'INPUT') { return; }
-    if (firstSelection === false) {
-      firstSelection = true;
-      firstVal = e.target.parentElement.dataset.index;
-    } else if (firstSelection && secondSelection === false) {
-      secondSelection = true;
-      secondVal = e.target.parentElement.dataset.index;
-      massSelect(firstVal, secondVal);
+  // function handleClick(e) {
+  //   if (e.target.tagName !== 'INPUT') { return; }
+  //   if (firstSelection === false) {
+  //     firstSelection = true;
+  //     firstVal = e.target.parentElement.dataset.index;
+  //   } else if (firstSelection && secondSelection === false) {
+  //     secondSelection = true;
+  //     secondVal = e.target.parentElement.dataset.index;
+  //     massSelect(firstVal, secondVal);
+  //   }
+  // }
+
+  // function massSelect(first, last) {
+  //   if (!shiftPressed) { return; }
+  //   if (first > last) {
+  //     [first, last] = [last, first]
+  //   }
+
+  //   for (let i = first; i < last; i++) {
+  //     const input = items[i].querySelector('input');
+  //     input.checked = true;
+  //   }
+
+  //   firstSelection = false;
+  //   secondSelection = false;
+  //   firstVal = undefined;
+  //   secondVal = undefined;
+  // }
+
+  // function handleKeypress(e) {
+  //   if (e.keyCode !== 16) { return; }
+  //   if (shiftPressed) {
+  //     shiftPressed = false;
+  //   } else {
+  //     shiftPressed = true;
+  //   }
+  // }
+
+  // items.forEach(item => item.addEventListener('click', handleClick))
+  // document.addEventListener('keydown', handleKeypress)
+  // document.addEventListener('keyup', handleKeypress)
+  // document.addEventListener('keypress', handleKeypress)
+
+  const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]')
+  let lastChecked;
+
+  function handleCheck(e) {
+    let inBetween = false;
+
+    if (e.shiftKey && this.checked) {
+      checkboxes.forEach(checkbox => {
+        console.log(checkbox)
+        if (checkbox === this || checkbox === lastChecked) {
+          inBetween = !inBetween;
+          console.log('starting to check inbetween')
+        }
+
+        if (inBetween) {
+          checkbox.checked = true;
+        }
+      })
     }
+
+    lastChecked = this;
   }
 
-  function massSelect(first, last) {
-    if (!shiftPressed) { return; }
-    if (first > last) {
-      [first, last] = [last, first]
-    }
-
-    for (let i = first; i < last; i++) {
-      const input = items[i].querySelector('input');
-      input.checked = true;
-    }
-
-    firstSelection = false;
-    secondSelection = false;
-    firstVal = undefined;
-    secondVal = undefined;
-  }
-
-  function handleKeypress(e) {
-    if (e.keyCode !== 16) { return; }
-    if (shiftPressed) {
-      shiftPressed = false;
-    } else {
-      shiftPressed = true;
-    }
-  }
-
-  items.forEach(item => item.addEventListener('click', handleClick))
-  document.addEventListener('keydown', handleKeypress)
-  document.addEventListener('keyup', handleKeypress)
-  document.addEventListener('keypress', handleKeypress)
+  checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck))
 </script>
 </body>
 </html>
