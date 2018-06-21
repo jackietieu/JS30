@@ -40,7 +40,8 @@
   </div>
 
   <script>
-    function debounce(func, wait = 20, immediate = true) {
+    // changed wait to 10s for smoother transformations
+    function debounce(func, wait = 10, immediate = true) {
       var timeout;
       return function() {
         var context = this, args = arguments;
@@ -61,6 +62,7 @@
       sliderImages.forEach(slideImage => {
         // halfway through image
         const slideInAt = (window.scrollY + window.innerHeight) - slideImage.height / 2;
+        console.log(slideInAt)
         // bottom of image
         const imageBottom = slideImage.offsetTop + slideImage.height;
         const isHalfShown = slideInAt > slideImage.offsetTop;
