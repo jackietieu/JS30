@@ -62,7 +62,6 @@
       sliderImages.forEach(slideImage => {
         // halfway through image
         const slideInAt = (window.scrollY + window.innerHeight) - slideImage.height / 2;
-        console.log(slideInAt)
         // bottom of image
         const imageBottom = slideImage.offsetTop + slideImage.height;
         const isHalfShown = slideInAt > slideImage.offsetTop;
