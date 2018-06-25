@@ -30,6 +30,37 @@
   const itemsList = document.querySelector('.plates');
   const items = [];
 
+  function addItem(e) {
+    // by default, submitting a form will reload the page or send the data to an external source
+    e.preventDefault(); //stops page from loading automatically on form submit
+    
+    // 'this' refers to the form
+    // we can also use document, but using 'this' will search in a smaller/accurate space
+    const text = (this.querySelector('[name=item]')).value //the parentheses aren't always required
+
+    const item = {
+      text, // 'text: text' also works, but just 'text' is ES6 shorthand
+      done: false
+    }
+    
+    items.push(item);
+    populateList(items, itemsList)
+    this.reset(); // every form has a reset method
+  }
+
+  function populateList(plates = [], platesList) {
+    platesList.innerHTML = plates.map((plate, i) => {
+      // the "for" in label and the "id" in input are how they are connected to each other
+      return `
+        <li>
+          < type='checkbox' data-index=${i} id="item${i}" />
+          <label for="item${i}">${plate.text}</label>
+        </li>
+      `;
+    }).join('')
+  }
+
+  addItems.addEventListener('submit', addItem)
 </script>
 
 
