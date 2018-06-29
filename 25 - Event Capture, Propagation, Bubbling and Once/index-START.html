@@ -12,7 +12,6 @@
       </div>
     </div>
   </div>
-
 <style>
   html {
     box-sizing: border-box;
@@ -39,7 +38,26 @@
 
 <button></button>
 <script>
+  const divs = document.querySelectorAll('div');
+  const button = document.querySelector('button');
 
+  function logText(e) {
+    console.log(this.classList.value);;
+    // e.stopPropagation(); //stops bubbling
+  }
+
+  // document.body.addEventListener('click', logText)
+
+  divs.forEach(div => div.addEventListener('click', logText, {
+    capture: false, //false by default
+    once: true //fires only once and removes the listener
+  }))
+
+  button.addEventListener('click', () => {
+    console.log('click!!!')
+  }, {
+    once: true
+  })
 </script>
 </body>
 </html>
